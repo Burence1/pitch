@@ -49,7 +49,7 @@ def new_pitch():
   categories = Category.query.all()
   if form.validate_on_submit():
     category_id = Category.get_category(form.category.data)
-    pitch = Pitch(pitch_content=form.pitch_content.data,title=form.title.data,categories = Category.query.all())
+    pitch = Pitch(pitch_content=form.pitch_content.data,author=current_user,title=form.title.data,categories = Category.query.all())
     db.session.add(pitch)
     db.session.commit()
 
@@ -60,14 +60,14 @@ def new_pitch():
   return render_template("createpitch.html",title=title,pitch_form =form,categories=categories)
 
 
-@main.route("new_comment/<int:pitch_id>",methods=["GET","POST"])
+@main.route("/new_comment/<int:pitch_id>",methods=["GET","POST"])
 @login_required
 def new_comment(pitch_id):
   form = Add_Comment()
   categories = Category.query.all()
   pitch = Pitch.query.filter_by(id=pitch_id).first()
   if form.validate_on_submit():
-    comment = Comment(contents=form.contents.data,pitch_id=pitch_id)
+    comment = Comment(contents=form.contents.data,pitch_id=pitch_id,author=current_user)
     db.session.add(comment)
     db.session.commit()
 
