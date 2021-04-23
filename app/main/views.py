@@ -12,5 +12,15 @@ def index():
   '''
 
   title = "pitching app"
-  pitches = Pitch.query.all()
-  return render_template('index.html',title=title,pitches=pitches)
+
+  if user is None:
+    pitches = Pitch.query.all()
+    return render_template('index.html',title=title,pitches=pitches)
+
+  if user is not None:
+    pitches=Pitch.get_users_pitch(user.id)
+    return redirect(url_for('.profile',username=username,pitches=pitches))
+
+@main.route('/addcategory',methods=["GET","POST"])
+def add_category():
+  form = CategoryForm

@@ -68,16 +68,16 @@ class Pitch(db.Model):
 class Category(db.Model):
   __tablename__="categories"
   id = db.Column(db.Integer,primary_key=True)
-  title = db.Column(db.String(255))
+  category_title = db.Column(db.String(255))
   pitches = db.relationship('Pitch',backref='category',lazy="dynamic")
 
   @classmethod
   def get_category(cls,title):
-    category_title = Category.query.filter_by(title=title).first()
+    category_title = Category.query.filter_by(category_title=category_title).first()
     return category_title
 
   def __repr__(self):
-      return f'Category{self.title}'
+      return f'Category{self.category_title}'
 
 class Comment(db.Model):
   __tablename__='comments'
