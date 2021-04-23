@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, abort
+from flask import render_template, request, redirect, url_for, abort,flash
 from . import main
 from ..models import User,Pitch,Comment,Upvote,Downvote,Category
 from flask_login import login_required, current_user
@@ -41,4 +41,37 @@ def pitch_by_category(category_id):
   comments = Comment.query.all()
   title = f"{category_title} Pitch"
   return render_template("categories.html",pitches=pitches,category_title=category_title,comments=comments,title=title,categories=categories)
-  
+
+@main.route('/new_pitch',methods=["GET","POST"])
+@login_required
+def new_pitch():
+  form = PitchCategory()
+  categories = Category.query.all()
+  if form.validate_on_submit():
+    category_id = Category.get_category(form.category.data)
+    pitch = Pitch(pitch_content=form.pitch_content.data,title=form.title.data,categories = Category.query.all())
+    db.session.add(pitch)
+    db.session.commit()
+
+    flash("Pitch successfully posted")
+    return redirect(url_for("auth.pitchcategories",category_id=category_id))
+
+  title="New Pitch"
+  return render_template("createpitch.html",title=title,pitch_form =form,categories=categories)
+
+
+@main.route("new_comment/<int:pitch_id>",methods=["GET","POST"])
+@login_required
+def new_comment(pitch_id):
+  form = Add_Comment()
+  categories = Category.query.all()
+  pitch = Pitch.query.filter_by(id=pitch_id).first()
+  if form.validate_on_submit():
+    comment = Comment(contents=form.contents.data,pitch_id=pitch_id)
+    db.session.add(comment)
+    db.session.commit()
+
+    flash("Your comment has been added")
+    return redirect(url_for('auth.pitchcategories',category_id=pitch.category_id))
+
+  return render_template("add_comment.html",comment_form=form,categories=categories,pitch=pitch)
