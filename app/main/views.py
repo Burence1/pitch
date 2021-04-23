@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
-from ..models import User
+from ..models import User,Pitch,Comment,Upvote,Downvote
 from flask_login import login_required, current_user
 from .. import db
 
@@ -11,5 +11,6 @@ def index():
   View root page function that returns the index page and its data
   '''
 
-title = "pitching app"
-    return render_template('index.html',title=title)
+  title = "pitching app"
+  pitches = Pitch.query.all()
+  return render_template('index.html',title=title,pitches=pitches)
