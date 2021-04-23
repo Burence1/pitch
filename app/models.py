@@ -2,6 +2,11 @@ from . import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash,check_password_hash
 from datetime import datetime
+from . import login_manager
+
+@login_manager.user_loader
+def load_user(user_id):
+  return User.query.get(int(user_id))
 
 class User(UserMixin,db.Model):
   __tablename__ = 'users'
@@ -17,6 +22,20 @@ class User(UserMixin,db.Model):
   upvotes = db.relationship('Upvote', backref='user', lazy="dynamic")
   downvotes = db.relationship('Downvote',backref='user',lazy="dynamic")
 
+  @property
+  def password(self):
+    raise AttributeError('Cannot read password attribute')
+
+  @password.setter
+  def password(self,password):
+    self.password_hash = generate_password_hash(password)
+
+  def verify_password(self,password):
+    return check_password_hash(self.password_hash,password)
+
+  def __repr__(self):
+    return f'User {self.username}'
+
 class Pitch(db.Model):
   __tablename__ = 'pitches'
 
@@ -29,6 +48,23 @@ class Pitch(db.Model):
   upvotes = db.relationship('Upvote',backref='pitch',lazy="dynamic")
   downvotes=db.relationship('Downvote',backref='pitch',lazy="dynamic")
 
+  def save_pitch(self):
+    db.session.add(self)
+    db.session.commit()
+
+  @classmethod
+  def get_users_pitch(cls,id):
+    user_pitch = Pitch.query.filter_by(user_id=id).order_by(Pitch.posted.desc())
+    return user_pitch
+
+  @classmethod
+  def get_by_category(cls,category):
+    pitch_category=Pitch.query.filter_by(category=category).order_by(Pitch.posted.desc())
+    return pitch_category
+
+  def __repr__(self):
+    return f"Pitch {self.title}"
+
 class Comment(db.Model):
   __tablename__='comments'
 
@@ -37,6 +73,18 @@ class Comment(db.Model):
   pitch_id = db.Column(db.Integer,db.ForeignKey("pitches.id"))
   user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
+  def save_comment(self):
+    db.session.add(self)
+    db.session.commit()
+
+  @classmethod
+  def get_comments(cls,id):
+    comments=Comment.query.filter_by(pitch_id=id).all()
+    return comments
+
+  def __repr__(self):
+    return f'Comment{self.contents}'
+
 class Upvote(db.Model):
   __tablename__='upvotes'
 
@@ -44,7 +92,6 @@ class Upvote(db.Model):
   counter=db.Column(db.Integer)
   user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
   pitch_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
-
 
 class Downvote(db.Model):
   __tablename__='downvotes'
