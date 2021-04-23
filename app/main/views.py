@@ -20,7 +20,3 @@ def index():
   if user is not None:
     pitches=Pitch.get_users_pitch(user.id)
     return redirect(url_for('.profile',username=username,pitches=pitches))
-
-@main.route('/addcategory',methods=["GET","POST"])
-def add_category():
-  form = CategoryForm
