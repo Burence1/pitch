@@ -41,9 +41,9 @@ class Pitch(db.Model):
 
   id = db.Column(db.Integer,primary_key=True)
   title = db.Column(db.String(255))
-  category = db.Column(db.String(255))
   posted = db.Column(db.DateTime,default=datetime.utcnow)
   user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+  category_id = db.Column(db.Integer,db.ForeignKey("categories.id"))
   comments = db.relationship('Comment',backref='pitch',lazy="dynamic")
   upvotes = db.relationship('Upvote',backref='pitch',lazy="dynamic")
   downvotes=db.relationship('Downvote',backref='pitch',lazy="dynamic")
@@ -58,12 +58,26 @@ class Pitch(db.Model):
     return user_pitch
 
   @classmethod
-  def get_by_category(cls,category):
-    pitch_category=Pitch.query.filter_by(category=category).order_by(Pitch.posted.desc())
+  def get_by_category(cls,id):
+    pitch_category=Pitch.query.filter_by(category_id=id).order_by(Pitch.posted.desc())
     return pitch_category
 
   def __repr__(self):
     return f"Pitch {self.title}"
+
+class Category(db.Model):
+  __tablename__="categories"
+  id = db.Column(db.Integer,primary_key=True)
+  title = db.Column(db.String(255))
+  pitches = db.relationship('Pitch',backref='category',lazy="dynamic")
+
+  @classmethod
+  def get_category(cls,title):
+    category_title = Category.query.filter_by(title=title).first()
+    return category_title
+
+  def __repr__(self):
+      return f'Category{self.title}'
 
 class Comment(db.Model):
   __tablename__='comments'
