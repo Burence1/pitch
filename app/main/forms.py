@@ -10,7 +10,7 @@ class Add_Comment(FlaskForm):
   contents = TextAreaField('Add comment',validators=[Required()])
   submit = SubmitField('Submit')
 
-class PitchCategory(FlaskForm):
+class Add_Pitch(FlaskForm):
   title = StringField('Pitch Title',validators=[Required()])
   category = SelectField('Select category',choices=[("Interview","Interview Pitches"),("Product","Product Pitch"),("Love","Love Pitch"),("Investor","Investor Pitches")],validators=[Required()])
   pitch_content = TextAreaField("Input pitch",validators=[Required()])

@@ -3,7 +3,7 @@ from . import main
 from ..models import User,Pitch,Comment,Upvote,Downvote,Category
 from flask_login import login_required, current_user
 from .. import db
-from .forms import Add_Category,Add_Comment,PitchCategory
+from .forms import Add_Category,Add_Comment,Add_Pitch
 
 @main.route('/')
 def index():
@@ -18,6 +18,7 @@ def index():
   return render_template('index.html',title=title,categories=categories)
 
 @main.route('/addcategory',methods=["GET","POST"])
+@login_required
 def add_category():
   form = Add_Category()
   if current_user.username != 'burens':
@@ -45,7 +46,7 @@ def pitch_by_category(category_id):
 @main.route('/new_pitch',methods=["GET","POST"])
 @login_required
 def new_pitch():
-  form = PitchCategory()
+  form = Add_Pitch()
   categories = Category.query.all()
   if form.validate_on_submit():
     category_id = Category.get_category(form.category.data)

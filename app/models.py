@@ -72,6 +72,10 @@ class Category(db.Model):
   category_title = db.Column(db.String(255))
   pitches = db.relationship('Pitch',backref='category',lazy="dynamic")
 
+  def save_category(self):
+    db.session.add(self)
+    db.session.commit()
+
   @classmethod
   def get_category(cls,title):
     category_title = Category.query.filter_by(category_title=category_title).first()
