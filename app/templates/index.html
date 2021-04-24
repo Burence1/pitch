@@ -17,8 +17,7 @@
 
   <div class="row">
     <div class="header col-md-3" id="sidebar">
-      <a class="nav-link" href="/">
-        <img src="{{url_for('static', filename='/images/logo.png')}}"></a>
+    
       <br>
       <h5>Pitching App</h5>
       <br>
@@ -28,7 +27,7 @@
             <a class="nav-link" href="/" style="color: black;">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/topheadlines&40" style="color: black;">My Pitches</a>
+            <a class="nav-link" href="{{url_for('main.pitch_by_user', users_id=users_id)}}" style="color: black;">My Pitches</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="" style="color: black;">All Pitches</a>
@@ -38,6 +37,8 @@
           </li><br>
           {% if current_user.is_authenticated %}
           <li>{{current_user.username}}</li>
+          <a class="navbar-brand" style="font-size: 14px; float: right !important;"
+            href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a>
           <li><a href="{{url_for('auth.logout')}}">Sign out</a></li><br>
           {% else %}
           <li><a href="{{url_for('auth.login')}}">Sign in</a></li><br>
@@ -76,5 +77,4 @@
   <!-- Content block -->
   {% endblock %}
 </body>
-
 </html>

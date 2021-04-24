@@ -15,3 +15,8 @@ class Add_Pitch(FlaskForm):
   category = SelectField('Select category',choices=[("Interview Pitches Pitches","Interview Pitches"),("Product Pitches Pitches","Product Pitches"),("Love Pitches Pitches","Love Pitches"),("Investor Pitches Pitches","Investor Pitches")],validators=[Required()])
   pitch_content = TextAreaField("Input pitch",validators=[Required()])
   submit = SubmitField("Submit")
+
+class UpdateProfile(FlaskForm):
+  bio = TextAreaField("Enter bio.", validators=[Required()])
+  submit = SubmitField("Submit")
+  

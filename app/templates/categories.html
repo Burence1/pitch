@@ -1,38 +1,7 @@
 {% extends 'base.html'%}
 {% block content %}
-<h2 class="text-center">{{category_title}} Pitches</h2>
-<hr style="width: 50%;">
-<div class="introduction">
-  {% if category_name == "Investor Pitches"%}
-  <h4 class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ante odio, posuere vitae gravida placerat, dignissim sit
-  amet ante. Praesent rutrum lobortis congue. Suspendisse commodo gravida varius. Suspendisse volutpat neque sit amet ante
-  aliquet pharetra. Ut laoreet vehicula turpis quis rhoncus <a
-      href="{{url_for('main.new_pitch', uname=current_user.username)}}">Add your Pitch</a> and have other users vote
-    and comment on it.</p>
-
-  {%elif category_name == "Love Pitches"%}
-  <h4 class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ante odio, posuere vitae gravida placerat, dignissim sit
-  amet ante. Praesent rutrum lobortis congue. Suspendisse commodo gravida varius. Suspendisse volutpat neque sit amet ante
-  aliquet pharetra. Ut laoreet vehicula turpis quis rhoncus</h4>
-  <a href="{{url_for('main.new_pitch', uname=current_user.username)}}">Add your Pitch</a> and have other users
-  vote and comment on it.</p>
-
-  {%elif category_name == "Product Pitches"%}
-  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ante odio, posuere vitae gravida placerat, dignissim sit
-  amet ante. Praesent rutrum lobortis congue. Suspendisse commodo gravida varius. Suspendisse volutpat neque sit amet ante
-  aliquet pharetra. Ut laoreet vehicula turpis quis rhoncus <a
-      href="{{url_for('main.new_pitch', uname=current_user.username)}}">Add your Pitch</a> and have other users vote
-    and comment on it.</p>
-
-  {%elif category_name == "Interview Pitches"%}
-  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ante odio, posuere vitae gravida placerat, dignissim sit
-  amet ante. Praesent rutrum lobortis congue. Suspendisse commodo gravida varius. Suspendisse volutpat neque sit amet ante
-  aliquet pharetra. Ut laoreet vehicula turpis quis rhoncus
-     <a href="{{url_for('main.new_pitch', uname=current_user.username)}}">Add your Pitch</a> and have
-    other users vote and comment on it.</p>
-
-  {%endif%}
-</div>
+<h2 class="text-center">{{category_title}}</h2>
+<hr>
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10">
@@ -51,43 +20,20 @@
   <div class="col-md-8">
     {% if pitches %}
     {% for pitch in pitches %}
-    <div class="jumbotron">
-      <div class="card" id="white">
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <h4 class="card-title" style="color: white;">{{pitch.title}}</h4>
-            <p>{{pitch.pitch_content}}</p>
-            <footer class="blockquote-footer">- {{pitch.user_id.username}}</footer>
-            <small style="float: right;" style="cursor: pointer !important"><a href="/comment/{{pitch.id}}"> Add a
-                Comment</a></small>
-          </blockquote>
-        </div>
-        <!-- <div class="card-footer text-muted" id="details">
-          <small>Submitted on {{pitch.posted.strftime('%Y-%m-%d')}}</small><br>
-          <a href="{{url_for('main.upvote', uname = current_user.id ,pitch_id = pitch.id)}}"><button
-              class="btn my-2 my-sm-0">{{pitch.upvotes}}&nbsp;<i
-                class="fas fa-thumbs-up"></i>&nbsp;like</button></a>&nbsp;&nbsp;
-          <a href="{{url_for('main.downvote', uname = current_user.id ,pitch_id = pitch.id)}}"><button
-              class="btn my-2 my-sm-0">{{pitch.downvotes}}&nbsp;<i
-                class="fas fa-thumbs-up"></i>&nbsp;dislike</button></a>&nbsp;&nbsp;
-        </div> -->
+    <div class="card" id="white">
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <h4 class="card-title" style="color: white;">{{pitch.title}}</h4>
+          <p>{{pitch.pitch_content}}</p>
+          <footer class="blockquote-footer">- {{pitch.user_id.username}}</footer>
+          <small style="float: right;" style="cursor: pointer !important"><a href="/comment/{{pitch.id}}"> Add a
+              Comment</a></small>
+        </blockquote>
       </div>
-      {% for comment in comments %}
-      {%if comment.pitch_id == pitch.id %}
-      <div class="card comments">
-        <div class="card-body">
-          <p class="card-text">{{comment.comment_content}}</p>
-          <small class="commenter" style="float: right;">Comment By {{comment.author.username}}</small>
-          <br>
-          <hr style="width: 70%;">
-        </div>
-      </div>
-      {% endif %}
-      {% endfor%}
     </div>
-    {% endfor%}
-    {%endif%}
   </div>
+  {% endfor%}
+  {%endif%}
   <div class="col-md-2"></div>
 </div>
 {% endblock %}
