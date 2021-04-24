@@ -12,6 +12,6 @@ class Add_Comment(FlaskForm):
 
 class Add_Pitch(FlaskForm):
   title = StringField('Pitch Title',validators=[Required()])
-  category = SelectField('Select category',choices=[("Interview","Interview Pitches"),("Product","Product Pitch"),("Love","Love Pitch"),("Investor","Investor Pitches")],validators=[Required()])
+  category = SelectField('Select category',choices=[("Interview Pitches Pitches","Interview Pitches"),("Product Pitches Pitches","Product Pitches"),("Love Pitches Pitches","Love Pitches"),("Investor Pitches Pitches","Investor Pitches")],validators=[Required()])
   pitch_content = TextAreaField("Input pitch",validators=[Required()])
   submit = SubmitField("Submit")

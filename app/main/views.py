@@ -43,11 +43,20 @@ def pitch_by_category(category_id):
   title = f"{category_title} Pitch"
   return render_template("categories.html",pitches=pitches,category_title=category_title,comments=comments,title=title,categories=categories)
 
-@main.route('/user_pitch/<user_id>')
-def pitch_by_user(user_id):
-  pitches = Pitch.get_users_pitch(user_id)
-  user = User.query.filter_by(id=user_id).first()
-  category = Category.query.filter_by(id=user_id).first()
+
+@main.route('/all_pitches/<id>')
+def all_pitches():
+  pitches = Pitch.query.all()
+  category_title = Category.category_title
+  comments = Comment.query.all()
+  title = "All Pitches"
+  return render_template("allpitches.html", pitches=pitches, category_title=category_title, comments=comments, title=title)
+
+@main.route('/user_pitch/<users_id>')
+def pitch_by_user(users_id):
+  pitches = Pitch.get_users_pitch(users_id)
+  user = User.query.filter_by(id=users_id).first()
+  category = Category.query.filter_by(id=users_id).first()
   username = user.username
   comments = comments.query.all()
   title = f"{current_user.username}'s Pitches"
@@ -59,16 +68,18 @@ def new_pitch():
   form = Add_Pitch()
   categories = Category.query.all()
   if form.validate_on_submit():
-    category_id = Category.get_category(form.category.data)
-    pitch = Pitch(pitch_content=form.pitch_content.data,author=current_user,title=form.title.data,categories = Category.query.all())
+    title = form.title.data
+    pitch_content = form.pitch_content.data
+    category_id = (Category.get_category(form.category.data))
+    pitch = Pitch(pitch_content=form.pitch_content.data, title=form.title.data, user=current_user, category_id=(Category.get_category(form.category.data)))
     db.session.add(pitch)
     db.session.commit()
 
     flash("Pitch successfully posted")
-    return redirect(url_for("auth.pitchcategories",category_id=category_id))
+    return redirect(url_for('main.index'))
 
   title="New Pitch"
-  return render_template("createpitch.html",title=title,pitch_form =form,categories=categories)
+  return render_template("createpitch.html",title=title,pitch_form =form)
 
 
 @main.route("/new_comment/<int:pitch_id>",methods=["GET","POST"])

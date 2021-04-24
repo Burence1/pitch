@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   {% if title %}
@@ -9,19 +10,71 @@
   <title> Welcome to pitching app</title>
   {% endif %}
 </head>
+
 <body>
   <!-- Content block -->
   {% block content %}
-<div class="main" id="main">
-  <h3>
-    “Hope is the thing with feathers that perches in the soul - and sings the tunes without the words - and never stops at
-    all.”
-  </h3>
-  <blockquote>Emily Dickinson, Poet
-</blockquote>
-</div>
-<!-- Content block -->
-{% endblock %}
+
+  <div class="row">
+    <div class="header col-md-3" id="sidebar">
+      <a class="nav-link" href="/">
+        <img src="{{url_for('static', filename='/images/logo.png')}}"></a>
+      <br>
+      <h5>Pitching App</h5>
+      <br>
+      <div>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/" style="color: black;">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/topheadlines&40" style="color: black;">My Pitches</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="" style="color: black;">All Pitches</a>
+          </li>
+          <li class="nav-item">
+            <a href="{{url_for('main.new_pitch', uname=current_user.username)}}"> Add a pitch</a>
+          </li><br>
+          {% if current_user.is_authenticated %}
+          <li>{{current_user.username}}</li>
+          <li><a href="{{url_for('auth.logout')}}">Sign out</a></li><br>
+          {% else %}
+          <li><a href="{{url_for('auth.login')}}">Sign in</a></li><br>
+          {%endif%}
+
+          <li class="nav-item">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              style="cursor: pointer;">Categories</a>
+            <div class="dropdown-menu">
+              {% for category in categories %}
+              <a class="dropdown-item"
+                href="{{url_for('main.pitch_by_category', category_id = category.id)}}">{{category.category_title}}
+                Pitches</a><br>
+              {% endfor%}
+            </div>
+          </li><br>
+          {% if current_user.username == "burens"%}
+          <li><a href="{{url_for('main.add_category')}}"> Add a category</a></li>
+          {%endif%}
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="main" id="main">
+        <h3>
+          “Hope is the thing with feathers that perches in the soul - and sings the tunes without the words - and
+          never
+          stops at
+          all.”
+        </h3>
+        <blockquote>Emily Dickinson, Poet</blockquote>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- Content block -->
+  {% endblock %}
 </body>
 
 </html>
