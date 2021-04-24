@@ -43,6 +43,16 @@ def pitch_by_category(category_id):
   title = f"{category_title} Pitch"
   return render_template("categories.html",pitches=pitches,category_title=category_title,comments=comments,title=title,categories=categories)
 
+@main.route('/user_pitch/<user_id>')
+def pitch_by_user(user_id):
+  pitches = Pitch.get_users_pitch(user_id)
+  user = User.query.filter_by(id=user_id).first()
+  category = Category.query.filter_by(id=user_id).first()
+  username = user.username
+  comments = comments.query.all()
+  title = f"{current_user.username}'s Pitches"
+  return render_template("usercategory.html",pitches=pitches,username=username,comments=comments,title=title)
+
 @main.route('/new_pitch',methods=["GET","POST"])
 @login_required
 def new_pitch():

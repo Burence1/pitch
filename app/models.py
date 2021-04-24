@@ -89,6 +89,7 @@ class Comment(db.Model):
 
   id = db.Column(db.Integer,primary_key=True)
   contents = db.Column(db.Integer)
+  posted = db.Column(db.DateTime,default=datetime.utcnow)
   pitch_id = db.Column(db.Integer,db.ForeignKey("pitches.id"))
   user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
