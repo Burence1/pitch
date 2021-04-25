@@ -26,7 +26,7 @@
       {%else%}
       <p>No profile picture</p>
       {% endif %}
-    </div>
+    
     {% if user == current_user %}
     <form action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype="multipart/form-data">
     
@@ -34,6 +34,27 @@
       <input type="submit">
     </form>
     {% endif %}
+    </div>
+    <div class="col-md-4">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope='col'></th>
+            <th scope='col'>Stats</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pitches</td>
+            <td>{{user.pitches.count()}}</td>
+          </tr>
+          <tr>
+            <td>Comments</td>
+            <td>{{user.comments.count()}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 {% endblock %}

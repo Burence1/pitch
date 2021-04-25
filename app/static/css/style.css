@@ -1,15 +1,19 @@
-/* #main{
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/app/static/images/bg.jpg);
-  width: 50em;
-  height: 50em;
-} */
-
 *{
   font-size:small;
 }
 
-#sidebar{
-  margin-top: 8em;
-  width: 20em;
-  height: 100%;
+.profile_pic{
+  border-radius: 50%;
+  height: 10em;
+  width: 10em;
+}
+
+#prof{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#categories{
+  display: flex;
+  flex-direction: row;
 }

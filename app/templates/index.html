@@ -1,80 +1,171 @@
-{% extends 'base.html'%}
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% import 'macros.html' as macro %}
+<!-- Content block -->
+{% block content %}
+<title> {{ title }} </title>
+<div class="card shadow p-3 mb-5 rounded card" style="width: 25em;" id="prof">
+  <div class="cardbody">
+    <div class="card-img">
+      {% if current_user.profile_pic_path %}
+      <img src="{{url_for('static',filename=current_user.profile_pic_path)}}" class="profile_pic" alt="">
+      {%else%}
+      <p>No profile picture</p>
+      {% endif %}
+    </div>
+    <hr>
+    <br>
+    <div class="col-md-4">
+      <h3> {{current_user.username| capitalize}} </h3><br>
 
-<head>
-  <meta charset="utf-8">
-  {% if title %}
-  <title> {{ title }}</title>
-  {% else %}
-  <title> Welcome to pitching app</title>
-  {% endif %}
-</head>
-
-<body>
-  <!-- Content block -->
-  {% block content %}
-
-  <div class="row">
-    <div class="header col-md-3" id="sidebar">
-    
-      <br>
-      <h5>Pitching App</h5>
-      <br>
-      <div>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/" style="color: black;">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('main.pitch_by_user', users_id=users_id)}}" style="color: black;">My Pitches</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="" style="color: black;">All Pitches</a>
-          </li>
-          <li class="nav-item">
-            <a href="{{url_for('main.new_pitch', uname=current_user.username)}}"> Add a pitch</a>
-          </li><br>
-          {% if current_user.is_authenticated %}
-          <li>{{current_user.username}}</li>
-          <a class="navbar-brand" style="font-size: 14px; float: right !important;"
-            href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a>
-          <li><a href="{{url_for('auth.logout')}}">Sign out</a></li><br>
-          {% else %}
-          <li><a href="{{url_for('auth.login')}}">Sign in</a></li><br>
-          {%endif%}
-
-          <li class="nav-item">
-            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-              style="cursor: pointer;">Categories</a>
-            <div class="dropdown-menu">
-              {% for category in categories %}
-              <a class="dropdown-item"
-                href="{{url_for('main.pitch_by_category', category_id = category.id)}}">{{category.category_title}}
-                Pitches</a><br>
-              {% endfor%}
+      <!--Displaying user bio-->
+      {% if current_user.bio %}
+      <p>Bio Info: {{current_user.bio}}</p>
+      {%else%}
+      <p> {{current_user.username| capitalize}} has no bio </p>
+      {% endif %}
+    </div><br>
+  </div>
+</div>
+<div class="container wrapper">
+  <ul class="nav nav-tabs nav-tabs-right" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="interview-tab" data-toggle="tab" href="#interview" role="tab"
+        aria-controls="interview" aria-selected="true">Interview</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="investor-tab" data-toggle="tab" href="#investor" role="tab" aria-controls="investor"
+        aria-selected="false">Investor</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="promotion-tab" data-toggle="tab" href="#promotion" role="tab" aria-controls="promotion"
+        aria-selected="false">Promotion</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="entertainment-tab" data-toggle="tab" href="#entertainment" role="tab"
+        aria-controls="entertainment" aria-selected="false">Entertainment</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="love-tab" data-toggle="tab" href="#love" role="tab" aria-controls="love"
+        aria-selected="false">Love-Pitch</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="interview" role="tabpanel" aria-labelledby="interview-tab">
+      <section>
+        <div class="intro">
+          <div class="pl-heroleft feature content ">
+            <div id="interview">
+              <div class="row">
+                <div class="block col-md-4">
+                  <h3 class="kicker ga-click">Interview Pitch</h3>
+                  <br>
+                  <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                </div>
+              </div>
             </div>
-          </li><br>
-          {% if current_user.username == "burens"%}
-          <li><a href="{{url_for('main.add_category')}}"> Add a category</a></li>
-          {%endif%}
-        </ul>
-      </div>
+          </div>
+        </div>
+        <div class="content" id="interview">
+          <div class="tab-content">
+            <div class="Pitch">
+              {{macro.displayPitches(interviewpitches)}}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="col-md-9">
-      <div class="main" id="main">
-        <h3>
-          “Hope is the thing with feathers that perches in the soul - and sings the tunes without the words - and
-          never
-          stops at
-          all.”
-        </h3>
-        <blockquote>Emily Dickinson, Poet</blockquote>
-      </div>
+    <div class="tab-pane fade" id="investor" role="tabpanel" aria-labelledby="product-tab">
+      <section>
+        <div class="intro">
+          <div class="pl-heroleft feature content ">
+            <div id="investor">
+              <div class="row">
+                <div class="block col-md-4">
+                  <h3 class="kicker ga-click">Investor Pitch</h3>
+                  <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content" id="investor">
+          <div class="tab-content">
+            <div class="Pitch">
+              {{macro.displayPitches(investorpitches)}}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="tab-pane fade" id="promotion" role="tabpanel" aria-labelledby="promotion-tab">
+      <section>
+        <div class="intro">
+          <div class="pl-heroleft feature content ">
+            <div id="promotion">
+              <div class="row">
+                <div class="block col-md-4">
+                  <h3 class="kicker ga-click">Promotion Pitch</h3>
+                  <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content" id="promotion">
+          <div class="tab-content">
+            <div class="Pitch">
+              {{macro.displayPitches(promotionpitches)}}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="tab-pane fade" id="entertainment" role="tabpanel" aria-labelledby="business-tab">
+      <section>
+        <div class="intro">
+          <div class="pl-heroleft feature content ">
+            <div id="entertainment">
+              <div class="row">
+                <div class="block col-md-4">
+                  <h3 class="kicker ga-click">Entertainment Pitch</h3>
+                  <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content" id="entertainment">
+          <div class="tab-content">
+            <div class="Pitch">
+              {{macro.displayPitches(entertainmentpitches)}}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="tab-pane fade" id="love" role="tabpanel" aria-labelledby="love-tab">
+      <section>
+        <div class="intro">
+          <div class="pl-heroleft feature content ">
+            <div id="love">
+              <div class="row">
+                <div class="block col-md-4">
+                  <h3>Love Pitch</h3>
+                  <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content" id="love">
+          <div class="tab-content">
+            <div class="Pitch">
+              {{macro.displayPitches(lovepitches)}}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
-  </div>
-  <!-- Content block -->
-  {% endblock %}
-</body>
-</html>
+</div>
+{% endblock %}

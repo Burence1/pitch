@@ -1,5 +1,5 @@
 from . import db
-from flask_login import UserMixin
+from flask_login import UserMixin,current_user
 from werkzeug.security import generate_password_hash,check_password_hash
 from datetime import datetime
 from . import login_manager
@@ -44,8 +44,8 @@ class Pitch(db.Model):
   pitch_content = db.Column(db.String(255))
   posted = db.Column(db.DateTime,default=datetime.utcnow)
   user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-  category_id = db.Column(db.Integer,db.ForeignKey("categories.id"))
-  comments = db.relationship('Comment',backref='pitch',lazy="dynamic")
+  category = db.Column(db.String())
+  comment = db.relationship('Comment',backref='pitch',lazy="dynamic")
   upvotes = db.relationship('Upvote',backref='pitch',lazy="dynamic")
   downvotes=db.relationship('Downvote',backref='pitch',lazy="dynamic")
 
@@ -53,41 +53,28 @@ class Pitch(db.Model):
     db.session.add(self)
     db.session.commit()
 
-  @classmethod
-  def get_users_pitch(cls,id):
-    user_pitch = Pitch.query.filter_by(user_id=id).order_by(Pitch.posted.desc())
-    return user_pitch
+  # @classmethod
+  # def get_pitch(cls, id):
+  #     pitches = Pitch.query.filter_by(id).all()
+  #     return pitches
 
-  @classmethod
-  def get_by_category(cls,id):
-    pitch_category=Pitch.query.filter_by(category_id=id).order_by(Pitch.posted.desc())
-    return pitch_category
+  # @classmethod
+  # def get_users_pitch(cls,user_id):
+  #   user_pitch = Pitch.query.filter_by(user_id=id).order_by(Pitch.posted.desc())
+  #   return user_pitch
 
-  def __repr__(self):
-    return f"Pitch {self.title}"
-
-class Category(db.Model):
-  __tablename__="categories"
-  id = db.Column(db.Integer,primary_key=True)
-  category_title = db.Column(db.String(255))
-  pitches = db.relationship('Pitch',backref='category',lazy="dynamic")
-
-  @classmethod
-  def get_category(cls,category_title):
-    category_title = Category.query.filter_by(category_title=category_title).first()
-    return category_title
 
   def __repr__(self):
-      return f'Category{self.category_title}'
+    return f"Pitch {self.pitch_content}"
 
 class Comment(db.Model):
   __tablename__='comments'
 
   id = db.Column(db.Integer,primary_key=True)
-  contents = db.Column(db.Integer)
+  comment = db.Column(db.Text(),nullable=False)
   posted = db.Column(db.DateTime,default=datetime.utcnow)
-  pitch_id = db.Column(db.Integer,db.ForeignKey("pitches.id"))
-  user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+  pitch_id = db.Column(db.Integer,db.ForeignKey("pitches.id"),nullable=False)
+  user_id = db.Column(db.Integer,db.ForeignKey("users.id"),nullable=False)
 
   def save_comment(self):
     db.session.add(self)
@@ -95,11 +82,11 @@ class Comment(db.Model):
 
   @classmethod
   def get_comments(cls,id):
-    comments=Comment.query.filter_by(pitch_id=id).all()
-    return comments
+    contents=Comment.query.filter_by(pitch_id=id).all()
+    return contents
 
   def __repr__(self):
-    return f'Comment{self.contents}'
+    return f'Comment {self.comment}'
 
 class Upvote(db.Model):
   __tablename__='upvotes'
@@ -114,8 +101,8 @@ class Upvote(db.Model):
     db.session.commit()
   
   @classmethod
-  def get_by_pitch(cls,id):
-    upvote_by_pitch=Upvote.query.filter_by(pitch_id=id).all()
+  def get_by_pitch(cls,pitch_id):
+    upvote_by_pitch=Upvote.query.filter_by(pitch_id=pitch_id).all()
     return upvote_by_pitch
 
   def __repr__(self):
@@ -134,8 +121,8 @@ class Downvote(db.Model):
     db.session.commit()
 
   @classmethod
-  def get_by_pitch(cls, id):
-    downvote_by_pitch = Downvote.query.filter_by(pitch_id=id).all()
+  def get_by_pitch(cls, pitch_id):
+    downvote_by_pitch = Downvote.query.filter_by(pitch_id=pitch_id).all()
     return downvote_by_pitch
 
   def __repr__(self):
