@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to Pitching App.
+Thanks for signing up for our services, go ahead and have fun with our one minute pitches

@@ -20,7 +20,7 @@
                 class="far fa-thumbs-up"></i>Like <span class="likes">{{pitch.upvotes.count()}}</span></a>
             <a href="{{url_for('main.dislike',id=pitch.id)}}" class="btn btn-danger btn-sm"><i
                 class="far fa-thumbs-down"></i>Dislike <span class="dislikes">{{pitch.downvotes.count()}}</span></a>
-            <a href="{{url_for('main.comment',pitch_id=pitch.id)}}" class="btn btn-primary btn-sm"><i
+            <a href="{{url_for('main.comment',pitch_id=pitch.id)}}" class="btn btn-primary btn-sm"> {{pitch.comment.count() }} <i
                 class="fas fa-comment"></i>
             </a>
           </div>
@@ -39,19 +39,9 @@
 {% for comment in all_comments%}
 
 <div class="row">
-  {% if comment.user.profile_pic_path %}
-  <p>
-    <img src="{{url_for('static',filename = comment.user.profile_pic_path)}}" alt=""
-      class="img-thumbnail rounded-circle comment">
-  </p>
-  {% else %}
-  <p>
-    <img src="{{url_for('static',filename = 'photos/avatar.jpg')}}" alt="" class="img-thumbnail rounded-circle comment">
-  </p>
-  {% endif %}
   <div class="media-body">
-    <a class="mr-2" href="#">{{comment.user.username}}</a>
-    <p class="pitch-content">{{comment.comment_content}}</p>
+    <p>{{comment.user_id.username}}</p>
+    <p class="pitch-content">{{comment.comment}}</p>
   </div>
 </div>
 {% endfor %}
