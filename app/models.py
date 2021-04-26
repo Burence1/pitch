@@ -53,17 +53,6 @@ class Pitch(db.Model):
     db.session.add(self)
     db.session.commit()
 
-  # @classmethod
-  # def get_pitch(cls, id):
-  #     pitches = Pitch.query.filter_by(id).all()
-  #     return pitches
-
-  # @classmethod
-  # def get_users_pitch(cls,user_id):
-  #   user_pitch = Pitch.query.filter_by(user_id=id).order_by(Pitch.posted.desc())
-  #   return user_pitch
-
-
   def __repr__(self):
     return f"Pitch {self.pitch_content}"
 
