@@ -23,6 +23,10 @@ class Config:
   def init_app(app):
       pass
 
+
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://burens:Hawaii@localhost/pitch_test'
+
 class ProdConfig(Config):
   '''
   Production  configuration child class
@@ -44,5 +48,6 @@ class DevConfig(Config):
 
 config_options = {
     'development': DevConfig,
-    'production': ProdConfig
+    'production': ProdConfig,
+    'test':TestConfig
 }
