@@ -11,14 +11,14 @@
         <div class="cardbody">
           <p class="pitch-metadata">
           <h3 class="inline"><a class="pitch-title" href="#">{{pitch.pitch_title}}</a></h3>
-          <small class="text-muted"> Posted on {{pitch.posted.strftime('%d/%m/%Y')}} | {{pitch.category}}</small>
+          <small> Posted on {{pitch.posted.strftime('%d/%m/%Y')}} <br> {{pitch.category}}</small>
           <hr>
           </p>
-          <p class="pitch-content">{{pitch.content}}</p>
-          <small class="text-muted">
-            <p class="mr-2">-Author {{pitch.user.username}}</p>
+          <blockquote>Pitch: {{pitch.pitch_content}}</blockquote>
+          <small>
+            Author: {{pitch.user.username}}
           </small>
-          <p class="pitchback"> <a href="/"> Back to pitches </a> </p>
+          <p> <a href="/"> back to homepage </a> </p>
         </div>
       </div>
       <div>
@@ -38,8 +38,6 @@
     </div>
   </div>
 </div>
-</div>
-</div>
-</div>
+
 
 {% endblock %}

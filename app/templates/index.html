@@ -4,6 +4,28 @@
 {% block content %}
 <title> {{ title }} </title>
 <div class="row">
+  <div class="space-bar">
+    <div class="cover container-fluid">
+      <div class="heading">
+        <div class="row">
+          <div class="col-md-7" style="padding-top: 2em;">
+            <p>
+              <i class="fa fa-quote-left" aria-hidden="true"></i>
+              LOREM <br> LOREM
+            <i class="fa fa-quote-right" aria-hidden="true"></i>
+            </p>
+          </div>
+          <div class="col-md-5" style="padding-top: 2em;">
+            <p> <strong> 
+              <i class="fa fa-quote-left" aria-hidden="true"></i>
+              LOREM
+            <i class="fa fa-quote-right" aria-hidden="true"></i>
+            </strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="col-md-4">
     <div class="card shadow p-3 mb-5 rounded card" style="width: 27em;" id="prof">
       <div class="cardbody">
@@ -17,9 +39,11 @@
         <hr>
         <br>
         <div class="col-md-4">
-          <h3> {{current_user.username| upper()}} </h3><br>
-    
+          <h3><strong> {{current_user.username| upper()}}</strong> </h3><br>
+          <br>    
           <!--Displaying user bio-->
+          <h3>Bio Info</h3>
+          <hr>
           {% if current_user.bio %}
           <p>Bio Info: {{current_user.bio}}</p>
           {%else%}
@@ -61,9 +85,8 @@
                 <div id="interview">
                   <div class="row">
                     <div class="block col-md-4">
-                      <h3 class="kicker ga-click">Interview Pitch</h3>
+                      <h3 style="text-align: center;">Interview Pitches</h3>
                       <br>
-                      <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
                     </div>
                   </div>
                 </div>
@@ -85,8 +108,7 @@
                 <div id="investor">
                   <div class="row">
                     <div class="block col-md-4">
-                      <h3 class="kicker ga-click">Investor Pitch</h3>
-                      <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                      <h3>Investor Pitches</h3>
                     </div>
                   </div>
                 </div>
@@ -108,8 +130,7 @@
                 <div id="promotion">
                   <div class="row">
                     <div class="block col-md-4">
-                      <h3 class="kicker ga-click">Promotion Pitch</h3>
-                      <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                      <h3>Promotion Pitches</h3>
                     </div>
                   </div>
                 </div>
@@ -131,8 +152,7 @@
                 <div id="entertainment">
                   <div class="row">
                     <div class="block col-md-4">
-                      <h3 class="kicker ga-click">Entertainment Pitch</h3>
-                      <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                      <h3>Entertainment Pitches</h3>
                     </div>
                   </div>
                 </div>
@@ -154,8 +174,7 @@
                 <div id="love">
                   <div class="row">
                     <div class="block col-md-4">
-                      <h3>Love Pitch</h3>
-                      <p class="post"><a href="/new_pitch"><i class="fas fa-plus"></i> Add a Pitch</a></p>
+                      <h3>Love Pitches</h3>
                     </div>
                   </div>
                 </div>

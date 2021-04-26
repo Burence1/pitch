@@ -2,26 +2,26 @@
 {% if all_pitches%}
 {% for pitch in all_pitches%}
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-12">
     <div class="card shadow p-3 mb-5 rounded card" style="width: 25em;" id="prof">
       <div class="cardbody">
         <div class="media-body">
           <p class="pitch-metadata">
           <h3 class="inline"><a class="pitch-title" href="#">{{pitch.pitch_title}}</a></h3>
-          <h6 class="text-muted"> Posted on {{pitch.posted.strftime('%d/%m/%Y')}} <br> {{pitch.category}}</h6>
+          <h6> Posted on {{pitch.posted.strftime('%d/%m/%Y')}} <br> {{pitch.category}}</h6>
           <hr>
           </p>
           <p class="pitch-content">Pitch: " {{pitch.pitch_content}} "</p>
-          <small class="text-muted">
-            <p>Author {{pitch.user.username}}</p>
+          <small>
+            <p>Author: {{pitch.user.username}}</p>
           </small>
           <div class="comments">
             <a href="{{url_for('main.like',id=pitch.id)}}" class="btn btn-success btn-sm"><i
                 class="far fa-thumbs-up"></i>Like <span class="likes">{{pitch.upvotes.count()}}</span></a>
             <a href="{{url_for('main.dislike',id=pitch.id)}}" class="btn btn-danger btn-sm"><i
                 class="far fa-thumbs-down"></i>Dislike <span class="dislikes">{{pitch.downvotes.count()}}</span></a>
-            <a href="{{url_for('main.comment',pitch_id=pitch.id)}}" class="btn btn-primary btn-sm"> {{pitch.comment.count() }} <i
-                class="fas fa-comment"></i>
+            <a href="{{url_for('main.comment',pitch_id=pitch.id)}}" class="btn btn-secondary btn-sm"> {{pitch.comment.count() }}<i
+                class="fas fa-comment"></i> Comment(s)
             </a>
           </div>
         </div>
@@ -40,8 +40,8 @@
 
 <div class="row">
   <div class="media-body">
-    <p>{{comment.user_id.username}}</p>
-    <p class="pitch-content">{{comment.comment}}</p>
+    <p>Comment By: {{comment.user.username}}</p>
+    <p>{{comment.comment}}</p>
   </div>
 </div>
 {% endfor %}

@@ -19,3 +19,20 @@
   flex-direction: row;
 }
 
+.Pitch{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.heading{
+  height: 10em;
+  color: whitesmoke;
+}
+
+.space-bar{
+  background-color: #6F1D1B;
+  margin-bottom: 2em;
+
+}
