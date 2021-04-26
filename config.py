@@ -23,7 +23,6 @@ class Config:
   def init_app(app):
       pass
 
-
 class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://burens:Hawaii@localhost/pitch_test'
 
