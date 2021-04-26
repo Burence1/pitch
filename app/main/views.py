@@ -36,9 +36,8 @@ def all_pitches():
 def pitch_by_user(users_id):
   pitches = Pitch.get_users_pitch(users_id)
   user = User.query.filter_by(id=users_id).first()
-  username = user.username
   title = f"{current_user.username}'s Pitches"
-  return render_template("usercategory.html",pitches=pitches,username=username,title=title)
+  return render_template("profile.html",pitches=pitches,title=title)
 
 @main.route('/new_pitch',methods=["GET","POST"])
 @login_required

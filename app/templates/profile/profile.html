@@ -5,13 +5,13 @@
   <div class="row">
     <!-- displaying  Username-->
     <div class="col-md-4">
-      <h3> {{user.username| capitalize}} </h3>
+      <h3> {{user.username| upper()}} </h3>
 
       <!--Displaying user bio-->
       {% if user.bio %}
       <p> {{user.bio}}</p>
       {%else%}
-      <p> {{user.username| capitalize}} has no bio </p>
+      <p> {{user.username| upper()}} has no bio </p>
       {% endif %}
     </div>
     {% if user == current_user %}
@@ -26,35 +26,63 @@
       {%else%}
       <p>No profile picture</p>
       {% endif %}
-    
-    {% if user == current_user %}
-    <form action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype="multipart/form-data">
-    
-      <input type="file" name="photo" class="form-control" required>
-      <input type="submit">
-    </form>
-    {% endif %}
+
+      {% if user == current_user %}
+      <form action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype="multipart/form-data">
+
+        <input type="file" name="photo" class="form-control" required>
+        <input type="submit">
+      </form>
+      {% endif %}
     </div>
     <div class="col-md-4">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope='col'></th>
-            <th scope='col'>Stats</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Pitches</td>
-            <td>{{user.pitches.count()}}</td>
-          </tr>
-          <tr>
-            <td>Comments</td>
-            <td>{{user.comments.count()}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="card shadow p-3 mb-5 rounded card" style="width: 25em;" id="prof">
+        <div class="card-title">
+          <h3>{{user.username| upper()}}'s Statistics</h3>
+        </div>
+        <div class="cardbody">
+          Added Pitches: {{user.pitches.count()}}
+          <hr>
+          Added Comments: {{user.comments.count()}}
+          <hr>
+          No. of Upvotes: {{user.upvotes.count()}}
+          <hr>
+          No. of Downvotes: {{user.downvotes.count()}}
+        </div>
+      </div>
     </div>
   </div>
 </div>
+{% if pitches%}
+{% for pitch in pitches%}
+<div class="row">
+  <div class="col-md-4">
+    <div class="card shadow p-3 mb-5 rounded card" style="width: 25em;" id="prof">
+      <div class="cardbody">
+        <div class="media-body">
+          <p class="pitch-metadata">
+          <h3 class="inline"><a class="pitch-title" href="#">{{pitch.pitch_title}}</a></h3>
+          <h6 class="text-muted"> Posted on {{pitch.posted.strftime('%d/%m/%Y')}} <br> {{pitch.category}}</h6>
+          <hr>
+          </p>
+          <p class="pitch-content">Pitch: " {{pitch.pitch_content}} "</p>
+          <small class="text-muted">
+            <p>Author {{pitch.user.username}}</p>
+          </small>
+          <div class="comments">
+            <a href="{{url_for('main.like',id=pitch.id)}}" class="btn btn-success btn-sm"><i
+                class="far fa-thumbs-up"></i>Like <span class="likes">{{pitch.upvotes.count()}}</span></a>
+            <a href="{{url_for('main.dislike',id=pitch.id)}}" class="btn btn-danger btn-sm"><i
+                class="far fa-thumbs-down"></i>Dislike <span class="dislikes">{{pitch.downvotes.count()}}</span></a>
+            <a href="{{url_for('main.comment',pitch_id=pitch.id)}}" class="btn btn-primary btn-sm">
+              {{pitch.comment.count() }} <i class="fas fa-comment"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
 {% endblock %}
