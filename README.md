@@ -3,6 +3,12 @@
 #### {By Burens Omondi}
 ## Description
 {The Pitching App allows for users to register, login, create pitches alongside comments and stores all this data in a postgresql database}
+
+## Homepage
+<img src="./app/static/images/home.png"
+     alt="Homepage"
+     style="float: center; margin-right: 10px;" />
+
 ## Setup/Installation
 * Navigate to the project repository via https://github.com/Burence1/pitch.git
 * Change your working directory to the clone location of your preference.

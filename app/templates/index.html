@@ -43,7 +43,7 @@
   <div class="col-md-4">
     <div class="card shadow p-3 mb-5 rounded card" style="width: 27em;" id="prof">
       <div class="cardbody">
-        <div class="card-img">
+        <div class="card-img" style="text-align: center;">
           {% if current_user.profile_pic_path %}
           <img src="{{url_for('static',filename=current_user.profile_pic_path)}}" class="profile_pic" alt="">
           {%else%}
@@ -52,14 +52,18 @@
         </div>
         <hr>
         <br>
-        <div class="col-md-4">
-          <h3><strong> {{current_user.username| upper()}}</strong> </h3><br>
+        <div>
+          <h3 style="text-align: center;"><strong> {{current_user.username| upper()}}</strong> </h3><br>
           <br>    
           <!--Displaying user bio-->
-          <h3>Bio Info</h3>
+          <h3 style="text-align: center;">Bio Info:</h3>
           <hr>
           {% if current_user.bio %}
-          <p>Bio Info: {{current_user.bio}}</p>
+          <p><blockquote>
+            <i class="fa fa-quote-left" aria-hidden="true"></i>
+            {{current_user.bio}}
+            <i class="fa fa-quote-right" aria-hidden="true"></i>
+          </blockquote></p>
           {%else%}
           <p> {{current_user.username| upper()}} has no bio </p>
           {% endif %}
