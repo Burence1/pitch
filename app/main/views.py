@@ -118,15 +118,14 @@ def comment(pitch_id):
     return render_template('comment.html', form=form, pitch=pitch, all_comments=all_comments)
 
 
-@main.route('/like/<int:id>', methods=['POST', 'GET'])
+@main.route('/like/<int:id>', methods=['GET', 'POST'])
 @login_required
 def like(id):
     get_pitches = Upvote.get_by_pitch(id)
-    valid_string = f'{current_user.id}:{id}'
+    get_user = f'{current_user.id}:{id}'
     for pitch in get_pitches:
-        to_str = f'{pitch}'
-        print(valid_string+" "+to_str)
-        if valid_string == to_str:
+        upvotes = f'{pitch}'
+        if get_user == upvotes:
             return redirect(url_for('main.index', id=id))
         else:
             continue
@@ -135,15 +134,14 @@ def like(id):
     return redirect(url_for('main.index', id=id))
 
 
-@main.route('/dislike/<int:id>', methods=['POST', 'GET'])
+@main.route('/dislike/<int:id>', methods=['GET', 'POST'])
 @login_required
 def dislike(id):
     get_pitch = Downvote.get_by_pitch(id)
-    valid_string = f'{current_user.id}:{id}'
+    get_user = f'{current_user.id}:{id}'
     for pitch in get_pitch:
-        to_str = f'{pitch}'
-        print(valid_string+" "+to_str)
-        if valid_string == to_str:
+        downvotes = f'{pitch}'
+        if get_user == downvotes:
             return redirect(url_for('main.index', id=id))
         else:
             continue
