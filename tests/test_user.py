@@ -4,7 +4,7 @@ import unittest
 
 class TestUser(unittest.TestCase):
   def setUp(self):
-      self.new_user = User(username = "burens",pitches="1",comments="good",upvotes="1",downvotes="1", email ="burens@gmail.com", bio = "soft dev", profile_pic_path = "image_url", password = 'burens')
+      self.new_user = User(username = "burens", email ="burens@gmail.com", bio = "soft dev", profile_pic_path = "image_url", password = 'burens')
       db.session.add(self.new_user)
       db.session.commit()
 
@@ -14,10 +14,6 @@ class TestUser(unittest.TestCase):
 
   def test_check_instance_variables(self):
       self.assertEquals(self.new_user.username, 'burens')
-      self.assertEquals(self.new_user.pitches, "1")
-      self.assertEquals(self.new_user.comments, "good")
-      self.assertEquals(self.new_user.upvotes, "1")
-      self.assertEquals(self.new_user.downvotes, "1")
       self.assertEquals(self.new_user.email, 'burens@gmail.com')
       self.assertEquals(self.new_user.bio, 'soft dev')
       self.assertEquals(self.new_user.profile_pic_path, 'image_url')
