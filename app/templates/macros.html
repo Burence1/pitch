@@ -20,7 +20,7 @@
                 class="far fa-thumbs-up"></i>Like <span class="likes">{{pitch.upvotes.count()}}</span></a>
             <a href="{{url_for('main.dislike',id=pitch.id)}}" class="btn btn-danger btn-sm"><i
                 class="far fa-thumbs-down"></i>Dislike <span class="dislikes">{{pitch.downvotes.count()}}</span></a>
-            <a href="{{url_for('main.comment',pitch_id=pitch.id)}}" class="btn btn-secondary btn-sm"> {{pitch.comments.count() }}<i
+            <a href="{{url_for('main.comment',pitch_id=pitch.id)}}" class="btn btn-secondary btn-sm"> {{pitch.comment.count() }}<i
                 class="fas fa-comment"></i> Comment(s)
             </a>
           </div>

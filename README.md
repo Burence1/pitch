@@ -22,7 +22,7 @@
 * Users can create an account
 * Users can login to the account
 * Users can create pitches and add comments
-* Users can view other people's pitches amd comments
+* Users can view other people's pitches and comments
 * Pitches are displayed based on categories
 
 
